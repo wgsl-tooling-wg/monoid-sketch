@@ -7,27 +7,33 @@
 
 // ============= stdlib.wesl =============
 contract Type<T> {
-  type t: T::t;
+  type t: T::t; // t is being exposed by this contract
 }
 
 // ============= monoid.wesl =============
 contract Monoid {
-  type t;
+  type t; // t is an opaque type here
   const zero: t;
   fn combine(a: t, b: t) -> t;
 }
 
-module AddF32: Monoid + Type<F32> { // module implementation must satisfy contract
-  alias t = f32;
-  const zero: t = 0.0;
+// Module implementation must satisfy both Monoid AND Type<F32> contracts
+// Implementation details are hidden by the specifying the two contracts as the module return type
+module Add<T: Numeric>: Monoid + Type<F32> { 
+  import T::(+);
+  alias t = T::t;
+  const zero: t = T::zero;
   fn combine(a: t, b: t) -> t { return a + b; }
-};
+}
 
-module MinF32: Monoid + Type<F32> {
-  alias t = f32;
-  const zero: t = 3e38;
-  fn combine(a: t, b: t) -> t { return min(a, b); }
-};
+// Module implementation must satisfy contract
+// The impl states that MinF32 must satisfy the Monoid contract
+// but all module members are exposed.
+module Min<T: Numeric> impl Monoid {
+  alias t = T::t;
+  const zero: t = T::MAX_VALUE;
+  fn combine(a: t, b: t) -> t { return T::min(a, b); }
+}
 
 // ============= reduce.wesl =============
 // Functor: module function that takes Monoid module and returns a module with reduce function
@@ -42,13 +48,13 @@ module MakeReducer<M: Monoid> {
 }
 
 // ============= app.wesl =============
-import package::monoid::{AddF32, MinF32};
+import package::monoid::{Add, Min};
 import package::reduce::MakeReducer;
 
 // Apply functor to create specialized reducer modules
 // Note that these are specialised once.
-alias AddReducer = MakeReducer<AddF32>;
-alias MinReducer = MakeReducer<MinF32>;
+alias AddReducer = MakeReducer<Add<F32>>;
+alias MinReducer = MakeReducer<Min<F32>>;
 
 var<private> d: array<f32, 8>;
 var<private> e: array<f32, 8>;
