@@ -7,30 +7,30 @@
 
 // ============= monoid.wesl =============
 module contract Monoid { // module contract like ML's module type/signature
-  param alias T;
-  param const zero: T;
+  type T;
+  const zero: T;
   fn combine(a: T, b: T) -> T;
 }
 
 module AddF32: Monoid = { // module implementation must satisfy contract
-  param alias T = f32;
-  param const zero = 0.0;
+  alias T = f32;
+  const zero: T = 0.0;
   fn combine(a: f32, b: f32) -> f32 { return a + b; }
 };
 
 module MinF32: Monoid = {
-  param alias T = f32;
-  param const zero = 3e38;
+  alias T = f32;
+  const zero: T = 3e38;
   fn combine(a: f32, b: f32) -> f32 { return min(a, b); }
 };
 
 // ============= reduce.wesl =============
 // Functor: module function that takes Monoid module and returns a module with reduce function
-module MakeReducer(M: Monoid) = {
-  fn reduce(a: array<M.T, 8>) -> M.T {
-    var result = M.zero;
+module MakeReducer(M: Monoid) {
+  fn reduce(a: array<M::T, 8>) -> M::T {
+    var result = M::zero;
     for (var i = 0; i < 8; i++) {
-      result = M.combine(result, a[i]);
+      result = M:;combine(result, a[i]);
     }
     return result;
   }
