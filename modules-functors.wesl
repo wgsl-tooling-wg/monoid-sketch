@@ -30,7 +30,7 @@ module MakeReducer(M: Monoid) {
   fn reduce(a: array<M::T, 8>) -> M::T {
     var result = M::zero;
     for (var i = 0; i < 8; i++) {
-      result = M:;combine(result, a[i]);
+      result = M::combine(result, a[i]);
     }
     return result;
   }
