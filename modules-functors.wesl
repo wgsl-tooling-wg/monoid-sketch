@@ -6,8 +6,13 @@
 // - requires understanding functor concept
 
 // ============= stdlib.wesl =============
-contract Type<T> {
-  type t: T::t; // t is being exposed by this contract
+contract Type<t: type> {
+  type t: t; // t is being exposed by this contract
+}
+
+module F32: Numeric + Type<f32> {
+  type t = f32;
+  // rest of impl, would be special cased as built in type
 }
 
 // ============= monoid.wesl =============
@@ -19,7 +24,7 @@ contract Monoid {
 
 // Module implementation must satisfy both Monoid AND Type<F32> contracts
 // Implementation details are hidden by the specifying the two contracts as the module return type
-module Add<T: Numeric>: Monoid + Type<F32> { 
+module Add<T: Numeric>: Monoid + Type<T::t> { 
   import T::(+);
   alias t = T::t;
   const zero: t = T::zero;
