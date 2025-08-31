@@ -26,7 +26,7 @@ module MinF32: Monoid = {
 
 // ============= reduce.wesl =============
 // Functor: module function that takes Monoid module and returns a module with reduce function
-module MakeReducer(M: Monoid) {
+module MakeReducer<M: Monoid> {
   fn reduce(a: array<M::T, 8>) -> M::T {
     var result = M::zero;
     for (var i = 0; i < 8; i++) {
@@ -41,8 +41,8 @@ import package::monoid::{AddF32, MinF32};
 import package::reduce::MakeReducer;
 
 // Apply functor to create specialized reducer modules
-module AddReducer = MakeReducer(AddF32);
-module MinReducer = MakeReducer(MinF32);
+module AddReducer = MakeReducer<AddF32>;
+module MinReducer = MakeReducer<MinF32>;
 
 var<private> d: array<f32, 8>;
 var<private> e: array<f32, 8>;
