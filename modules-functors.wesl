@@ -6,28 +6,28 @@
 // - requires understanding functor concept
 
 // ============= monoid.wesl =============
-contract Monoid {
-  type T;
-  const zero: T;
-  fn combine(a: T, b: T) -> T;
+contract Monoid<T> {
+  type t: T::t;
+  const zero: t;
+  fn combine(a: t, b: t) -> t;
 }
 
-module AddF32: Monoid = { // module implementation must satisfy contract
-  alias T = f32;
-  const zero: T = 0.0;
-  fn combine(a: f32, b: f32) -> f32 { return a + b; }
+module AddF32: Monoid<F32> = { // module implementation must satisfy contract
+  alias t = f32;
+  const zero: t = 0.0;
+  fn combine(a: t, b: t) -> t { return a + b; }
 };
 
-module MinF32: Monoid = {
-  alias T = f32;
-  const zero: T = 3e38;
-  fn combine(a: f32, b: f32) -> f32 { return min(a, b); }
+module MinF32: Monoid<F32> = {
+  alias t = f32;
+  const zero: t = 3e38;
+  fn combine(a: t, b: t) -> t { return min(a, b); }
 };
 
 // ============= reduce.wesl =============
 // Functor: module function that takes Monoid module and returns a module with reduce function
-module MakeReducer<M: Monoid> {
-  fn reduce(a: array<M::T, 8>) -> M::T {
+module MakeReducer<M: Monoid<Any>> {
+  fn reduce(a: array<M::t, 8>) -> M::t {
     var result = M::zero;
     for (var i = 0; i < 8; i++) {
       result = M::combine(result, a[i]);
