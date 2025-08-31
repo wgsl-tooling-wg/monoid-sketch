@@ -53,7 +53,7 @@ fn app() {
 }
 
 fn reduceEm() {
-  AddReducer.reduce(d);  // use add monoid
-  MinReducer.reduce(e);  // use min monoid  
-  MinReducer.reduce(f);  // use min monoid again
+  AddReducer::reduce(d);  // use add monoid
+  MinReducer::reduce(e);  // use min monoid  
+  MinReducer::reduce(f);  // use min monoid again
 }
