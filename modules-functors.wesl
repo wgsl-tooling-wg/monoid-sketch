@@ -6,21 +6,24 @@
 // - requires understanding functor concept
 
 // ============= monoid.wesl =============
-module contract Monoid { // module contract like ML's module type/signature
+interface Monoid {
   type T;
   const zero: T;
+  @inlineable
   fn combine(a: T, b: T) -> T;
 }
 
 module AddF32: Monoid = { // module implementation must satisfy contract
   alias T = f32;
   const zero: T = 0.0;
+  @inline
   fn combine(a: f32, b: f32) -> f32 { return a + b; }
 };
 
 module MinF32: Monoid = {
   alias T = f32;
   const zero: T = 3e38;
+  @inline
   fn combine(a: f32, b: f32) -> f32 { return min(a, b); }
 };
 
