@@ -6,7 +6,7 @@
 // - requires understanding functor concept
 
 // ============= monoid.wesl =============
-interface Monoid {
+contract Monoid {
   type T;
   const zero: T;
   fn combine(a: T, b: T) -> T;
