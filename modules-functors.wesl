@@ -41,8 +41,9 @@ import package::monoid::{AddF32, MinF32};
 import package::reduce::MakeReducer;
 
 // Apply functor to create specialized reducer modules
-module AddReducer = MakeReducer<AddF32>;
-module MinReducer = MakeReducer<MinF32>;
+// Note that these are specialised once.
+alias AddReducer = MakeReducer<AddF32>;
+alias MinReducer = MakeReducer<MinF32>;
 
 var<private> d: array<f32, 8>;
 var<private> e: array<f32, 8>;
