@@ -10,10 +10,26 @@ contract Type<t: type> {
   type t: t; // t is being exposed by this contract
 }
 
-module F32: Numeric + Type<f32> {
-  type t = f32;
-  // rest of impl, would be special cased as built in type
+contract Numeric {
+  type t;
+  // rest of contract, would be special cased as built in operations on t
+  // for example:
+  fn operator+(a: t, b: t) -> t;
 }
+
+// Built in number types would extend this
+module IntrinsicNumeric<t: type>: Numeric + Type<t> {
+  type t: t = t;
+  // Set of the intrinsic fns would follow, for example
+  @intrinsic
+  fn operator+(a: t, b: t) -> t;
+  
+  @intrinsic
+  fn min(a: t, b: t) -> t;
+}
+
+// Specialization for F32
+alias F32 = IntrinsicNumeric<f32>;
 
 // ============= monoid.wesl =============
 contract Monoid {
@@ -25,7 +41,7 @@ contract Monoid {
 // Module implementation must satisfy both Monoid AND Type<F32> contracts
 // Implementation details are hidden by the specifying the two contracts as the module return type
 module Add<T: Numeric>: Monoid + Type<T::t> { 
-  import T::(+);
+  import T::(operator+);
   alias t = T::t;
   const zero: t = T::zero;
   fn combine(a: t, b: t) -> t { return a + b; }
