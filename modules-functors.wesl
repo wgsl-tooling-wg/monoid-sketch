@@ -21,11 +21,9 @@ contract Numeric {
 module IntrinsicNumeric<t: type>: Numeric + Type<t> {
   type t: t = t;
   // Set of the intrinsic fns would follow, for example
-  @intrinsic
-  fn operator+(a: t, b: t) -> t;
   
-  @intrinsic
-  fn min(a: t, b: t) -> t;
+  alias operator+ = operator+<t>;
+  alias min = min<t>;
 }
 
 // Specialization for F32
