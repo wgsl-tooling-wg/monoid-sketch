@@ -6,15 +6,22 @@
 // - requires understanding functor concept
 
 // ============= stdlib.wesl =============
+
+// Type is a utility contract to expose 
+// generic arg t as the parameterised type. 
+// This helps generic modules correlate input
+// types with associated types in the other contracts. 
 contract Type<t: type> {
   type t: t; // t is being exposed by this contract
 }
 
+// A contract for numeric types
+// Note that t is an opaque type here
 contract Numeric {
   type t;
-  // rest of contract, would be special cased as built in operations on t
-  // for example:
   fn operator+(a: t, b: t) -> t;
+  fn min(a: t, b: t) -> t;
+  // rest of contract...
 }
 
 // Built in number types would extend this
