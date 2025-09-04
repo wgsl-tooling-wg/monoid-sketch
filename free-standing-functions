@@ -1,0 +1,44 @@
+// very Julia inspired
+
+// ============= monoid.wesl =============
+contract Monoid<T> { }
+
+contract fn zero<T>(m: Monoid<T>) -> T;
+contract fn combine<T>(m: Monoid<T>, a: T, b: T) -> T;
+
+
+// Concrete implementation for Add
+struct AddF32: Monoid<f32> { }
+fn zero(m: AddF32) -> f32 { return 0.0 }
+fn combine(m: AddF32, a: f32, b: f32) -> f32  { return a + b; }
+
+struct MinF32: Monoid<f32> { }
+fn zero(m: MinF32) -> f32 { return 0.0 }
+fn combine(m: MinF32, a: f32, b: f32) -> f32  { return min(a, b); }
+
+// ============= reduce.wesl =============
+fn reduce<T, M: Monoid<T>>(a: array<T, 8>, m: Monoid<T>) {
+  var result = zero(m);
+  for (var i = 0; i < 8; i++) {
+    result = combine(m, result, a[i]);
+  }
+  return result;  
+}
+
+// ============= app.wesl =============
+import package::reduce::reduce;
+import package::monoid::{Adder};
+
+var<private> d: array<f32, 8>;
+var<private> e: array<f32, 8>;
+var<private> f: array<f32, 8>;
+
+fn app() {
+  reduceEm(Adder());
+}
+
+fn reduceEm(m: Monoid) {
+  reduce(d, m);
+  reduce(e, m);
+  reduce(f, m);
+}
