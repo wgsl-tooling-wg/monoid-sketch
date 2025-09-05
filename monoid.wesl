@@ -7,17 +7,17 @@
 
 // ============= monoid.wesl =============
 contract Monoid<T> { // define the monoid contract
-  zero: T;
+  const zero: T;
   combine(a: T, b: T) -> T;
 }
 
 const addF32: Monoid<f32> = { // a monoid for adding f32 values
-  zero: 0.0;
+  const zero: 0.0;
   combine(a: f32, b: f32) { return a + b; }
 }
 
 const minF32: Monoid<f32> = { // a monoid for finding the minimum of f32 values
-  zero: 3e38;
+  const zero: 3e38;
   combine(a: f32, b: f32) { return min(a, b); }
 }
 
