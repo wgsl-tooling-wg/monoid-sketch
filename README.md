@@ -26,9 +26,8 @@ Programmers should be able to write their own monoids,
 and programmers will need a way to select which monoid to use.
 
 ## Style Variations
-- [monoid](./monoid.wesl) a 'vanilla' version with explicit syntax.
+- [instance](./instance.wesl) version with explicit monoid instances.
   - The other versions are compared against this version.
-    Only the notable style differences are shown.
 - [struct](./struct.wesl) considers whether we could extend WGSL's struct syntax to define monoids.
 - [structural](./structural.wesl) considers using structural rather than nominal typing to define monoids, inspired by typescript or go.
 - [structural2](./structural2.wesl) even further with the structural typing approach,
