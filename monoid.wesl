@@ -1,7 +1,7 @@
 /// base version
 // -> 'contract' defines Monoid interface
-// -> construct Monoid implementations with 'const' syntax
-// -> 'const' parameter syntax to clarify comptime vs runtime params
+// -> Monoid realization instance with 'const' syntax
+// -> ':!' parameter syntax to clarify comptime vs runtime params
 // -> simple generic type parameters
 // -> nominal typing
 
@@ -24,7 +24,7 @@ const minF32: Monoid<f32> = { // a monoid for finding the minimum of f32 values
 // ============= reduce.wesl =============
 import package::monoid::Monoid;
 
-fn reduce<T>(a: array<T, 8>, const m: Monoid<T>) { // 'const' to note that m isn't passed at runtime
+fn reduce<T>(a: array<T, 8>, m:! Monoid<T>) { // ':!' to note that m isn't passed at runtime
   var result = m.zero;
   for (var i = 0; i < 8; i++) {
     result = m.combine(result, a[i]);
