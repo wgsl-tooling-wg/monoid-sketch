@@ -39,7 +39,7 @@ var<private> f: array<f32, 8>;
 var<private> g: array<vec2f, 8>;
 
 fn app() {
-  reduceEm(AddF32());
+  reduceEm(AddF32);
 
   reduce(g, Min<vec2f>());
   //            ^^^^^^ I think we have to specify this, because WGSL type inference is not very Hindley–Milner 
