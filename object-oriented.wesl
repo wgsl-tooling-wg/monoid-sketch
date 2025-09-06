@@ -38,10 +38,12 @@ var<private> f: array<f32, 8>;
 
 fn app() {
   let addReducer = AddReducer();
+  let minReducer = MinReducer();
   reduceEm(addReducer);
+  reduceEm(minReducer);
 }
 
-fn reduceEm(reducer: BaseReducer<f32>) {
+fn reduceEm<R: BaseReducer<f32>>(reducer: R) {
   reducer.reduce(d);
   reducer.reduce(e);
   reducer.reduce(f);
