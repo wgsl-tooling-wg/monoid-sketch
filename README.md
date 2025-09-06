@@ -10,6 +10,8 @@ A motivating example is the Monoid abstraction,
 a widely useful primitive in GPU programming that's applicable
 to algorithms like reduce and scan.
 
+What other model problems should we consider?
+
 ## Monoid Example
 A monoid has 2 components:
 - a `zero` element (the identity element)
@@ -28,26 +30,44 @@ and programmers will need a way to select which monoid to use.
 ## Style Variations
 - [instance](./instance.wesl) version with explicit monoid instances.
   - The other versions are compared against this version.
-- [struct](./struct.wesl) considers whether we could extend WGSL's struct syntax to define monoids.
-- [structural](./structural.wesl) considers using structural rather than nominal typing to define monoids, inspired by typescript or go.
-- [structural2](./structural2.wesl) even further with the structural typing approach,
-  inspired by zig.
-- [modules](./modules.wesl) considers enriched WESL modules to define monoids.
-- [modules-functors](./modules-functors.wesl) extends the modules example 
-  with module functors, inspired by ml/ocaml.
-- [typeclass](./typeclass.wesl) considers defining monoids as typeclasses,
-  inspired by haskell/rust typeclasses.
-- [context](./context.wesl) considers using a context mechanism for monoid.
-  inspired by kotlin/scala context.
+- [object-oriented](./object-oriented.wesl) monoids as mixins,
+    inspired by Java/C++ inheritance.
+- [typeclass](./typeclass.wesl) monoids as pure behavior typeclasses,
+    inspired by haskell/rust typeclasses.
+- [context](./context.wesl) monoids as typeclass instances via context.
+    inspired by kotlin/scala context.
+- [modules-functors](./modules-functors.wesl) monoids as modules
+    with module functors, inspired by ml/ocaml.
+
+### Bonus variations
+- [struct](./struct.wesl) 
+    extend WGSL's struct syntax to define monoids.
+- [structural](./structural.wesl)
+    use structural rather than nominal typing to define monoids, 
+    inspired by typescript or go.
+- [structural2](./structural2.wesl) 
+    even further with the structural typing approach,
+    inspired by zig.
+- [modules](./modules.wesl) 
+    simple enriched WESL modules to define monoids.
+- [multiple-dispatch](./multiple-dispatch.wesl) 
+    static function overloading approach
+    inspired by julia.
 
 ## Implementation
 Graphics programming is performance sensitive, so we'll
 normally use monomorphization (generating specialized code for each type). 
 
-Dynamic dispatch should be possible to add for occasional
+## Future features of interest
+Hopefully designs for abstract interfaces will be compatible with future
+features that might make it into wesl/wgsl someday.
+
+- Dynamic dispatch should be possible to add for occasional
 use in the future. 
 See [dynamic](./Dynamic.md) for a quick sketch on implementing 
 dynamic dispatch.
+
+- Operator overloading has been requested for e.g. complex numbers or 64 bit types.
 
 ## Design background
 As noted in [Who are WESL Programmers](https://wesl-lang.dev/spec/Designing#who-are-wesl-programmers), 
