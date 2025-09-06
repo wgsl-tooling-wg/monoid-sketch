@@ -1,6 +1,6 @@
 // ============= monoid.wesl =============
 mixin IMonoid<T> {
-  zero: T; 
+  const zero: T; 
   combine(a: T, b: T) -> T;
 }
 
@@ -17,9 +17,6 @@ abstract struct BaseReducer<T> : IMonoid<T> {
     }
     return result;
   }
-  // Abstract properties/methods to be implemented by subclasses
-  abstract zero: T;
-  abstract fn combine(a: T, b: T) -> T;
 }
 
 struct AddReducer : BaseReducer<f32> {
