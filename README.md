@@ -1,7 +1,8 @@
 # Monoid implementation styles for WESL
 
-This repo contains an exploration of ideas for abstract interfaces 
-for WESL by sketching implementations of a Monoid in various styles.
+This repo contains an exploration of ideas for abstraction mechanisms 
+for behavior contracts in WESL by sketching contracts and
+implementations of Monoid in various styles.
 
 ## Goal
 We'd like to introduce a mechanism for behavior
@@ -56,18 +57,25 @@ and programmers will need a way to select which monoid to use.
 
 ## Implementation
 Graphics programming is performance sensitive, so we'll
-normally use monomorphization (generating specialized code for each type). 
+normally use monomorphization 
+(generating specialized code for each behavior+type variation). 
+
+Separate compilation isn't required for WGSL/WESL transpilation,
+we can do whole program analysis before generating target code.
+But it's important to bound the effort to analyze each file
+so that the language server can do its work quickly.
 
 ## Future features of interest
-Hopefully designs for abstract interfaces will be compatible with future
-features that might make it into wesl/wgsl someday.
+We should aim for behavior contract designs to be compatible with 
+potential future features that might make it into wesl/wgsl someday.
 
 - Dynamic dispatch should be possible to add for occasional
 use in the future. 
 See [dynamic](./Dynamic.md) for a quick sketch on implementing 
 dynamic dispatch.
 
-- Operator overloading has been requested for e.g. complex numbers or 64 bit types.
+- Operator overloading has been requested, 
+e.g., for complex numbers or 64 bit types.
 
 ## Design background
 As noted in [Who are WESL Programmers](https://wesl-lang.dev/spec/Designing#who-are-wesl-programmers), 
